@@ -35,7 +35,7 @@ const Error = () => {
 
         <h1 className="text-3xl font-bold mt-6">Error Occurred</h1>
         <p className="mt-2 text-gray-300">
-          An error occurred while fetching the page you're looking for doesn't exist or has been moved.
+          An error occurred while fetching the page you are looking for does not exist or has been moved.
         </p>
         <Link
           href="/"
