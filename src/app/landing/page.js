@@ -17,6 +17,8 @@ import ContactUs from "./ContactUs";
 import DevelopmentTeam from "./DevelopmentTeam";
 import Navbar from "./Navbar";
 import MarqueeSection from "./MarqueeSection";
+import FeaturesInfo from "./FeaturesInfo";
+import StatsSection from "./StatsSection";
 // import { InteractiveGridPattern } from "@/components/magicui/interactive-grid-pattern";
 export default function MotoEMIPage() {
   return (
@@ -28,8 +30,9 @@ export default function MotoEMIPage() {
       <div id="about">
         <AboutUs id="about" />
       </div>
-
+      <FeaturesInfo />
       <MarqueeSection />
+      <StatsSection />
       <div id="team">
         <DevelopmentTeam />
       </div>

@@ -1,71 +1,93 @@
+"use client";
 import React from "react";
+import Link from "next/link";
 
 export default function ContactUs() {
   return (
-    <footer className="w-full flex justify-center items-center py-12 px-4 bg-gradient-to-r from-indigo-50 via-white to-indigo-100 mt-12">
-      <div className="relative max-w-lg w-full rounded-2xl shadow-2xl bg-white border border-indigo-100 p-8 flex flex-col items-center animate-fade-in">
-        {/* Icon */}
-        <div className="mb-3">
-          <svg width="48" height="48" fill="none" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="12" fill="#6366f1" opacity="0.1" />
-            <path
-              d="M6 8l6 4 6-4"
-              stroke="#6366f1"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <rect
-              x="4"
-              y="6"
-              width="16"
-              height="12"
-              rx="2"
-              stroke="#6366f1"
-              strokeWidth="2"
-            />
-          </svg>
+    <footer className="w-full px-4 py-16 bg-gradient-to-r from-indigo-50 via-white to-indigo-100">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 bg-white rounded-2xl border border-indigo-200 shadow-lg p-6 md:p-10 animate-fade-in">
+        {/* Left: Info */}
+        <div className="flex flex-col items-start gap-4 max-w-md">
+          <div className="flex items-center gap-3">
+            {/* Mail Icon */}
+            <div className="p-3 bg-indigo-100 rounded-full">
+              <svg width="36" height="36" fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="12" fill="#6366f1" opacity="0.1" />
+                <path
+                  d="M6 8l6 4 6-4"
+                  stroke="#6366f1"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <rect
+                  x="4"
+                  y="6"
+                  width="16"
+                  height="12"
+                  rx="2"
+                  stroke="#6366f1"
+                  strokeWidth="2"
+                />
+              </svg>
+            </div>
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-indigo-700">
+                CN Profitability Predictor
+              </h2>
+              <p className="text-sm text-indigo-600 font-medium">Contact Us</p>
+            </div>
+          </div>
+
+          <div className="space-y-1 text-sm text-gray-700">
+            <p>
+              <span className="font-semibold">Team:</span> CN Profitability Team
+            </p>
+            <p>
+              <span className="font-semibold">Email:</span>{" "}
+              <a
+                href="mailto:support@cnprofit.com"
+                className="text-indigo-600 underline hover:text-indigo-800"
+              >
+                support@cnprofit.com
+              </a>
+            </p>
+            <p>
+              <span className="font-semibold">Phone:</span>{" "}
+              <a
+                href="tel:+919876543210"
+                className="text-indigo-600 underline hover:text-indigo-800"
+              >
+                +91 98765 43210
+              </a>
+            </p>
+            <p>
+              <span className="font-semibold">Address:</span> 123, Main Street,
+              Bengaluru, India
+            </p>
+          </div>
         </div>
-        {/* App Name */}
-        <div className="text-2xl font-extrabold text-indigo-700 mb-1 tracking-tight">
-          CN Profitability Predictor
-        </div>
-        <div className="text-base font-semibold text-indigo-700 mb-4">
-          Contact Us
-        </div>
-        <div className="space-y-2 text-sm text-gray-700 text-center w-full">
-          <div>
-            <span className="font-semibold">Name:</span> CN Profitability Team
-          </div>
-          <div>
-            <span className="font-semibold">Email:</span>{" "}
-            <a
-              href="mailto:support@cnprofit.com"
-              className="text-indigo-600 underline hover:text-indigo-800 transition"
-            >
-              support@cnprofit.com
-            </a>
-          </div>
-          <div>
-            <span className="font-semibold">Phone:</span>{" "}
-            <a
-              href="tel:+919876543210"
-              className="text-indigo-600 underline hover:text-indigo-800 transition"
-            >
-              +91 98765 43210
-            </a>
-          </div>
-          <div>
-            <span className="font-semibold">Address:</span> 123, Main Street,
-            Bengaluru, India
-          </div>
+
+        {/* Right: Link */}
+        <div className="text-center md:text-right">
+          <p className="text-sm text-gray-600 mb-2">
+            Want to know more about the team?
+          </p>
+          <Link
+            href="/about"
+            className="inline-block text-indigo-600 underline font-medium hover:text-indigo-800 transition"
+          >
+            Learn more →
+          </Link>
         </div>
       </div>
-      {/* Fade-in animation */}
+
+      {/* Fade-in Animation */}
       <style jsx>{`
         .animate-fade-in {
-          animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+          animation: fadeInUp 0.8s ease-out;
         }
+
         @keyframes fadeInUp {
           from {
             opacity: 0;

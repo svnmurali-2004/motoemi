@@ -3,28 +3,28 @@ import { Marquee } from "@/components/magicui/marquee"; // Adjust path if needed
 import Image from "next/image"; // Ensure you have next/image installed
 const team = [
   {
-    name: "svn.murali",
+    name: "Svn.Murali",
     role: "Team Lead",
     desc: "Full Stack Developer & Project Lead. Passionate about scalable systems and team growth.",
     highlight: true,
     initial: "S",
   },
   {
-    name: "hrishik",
+    name: "Hrishik",
     role: "Developer",
     desc: "Frontend specialist and UI/UX enthusiast.",
     highlight: false,
     initial: "H",
   },
   {
-    name: "e mithil",
+    name: "E Mithil",
     role: "Developer",
     desc: "Backend developer and automation expert.",
     highlight: false,
     initial: "E",
   },
   {
-    name: "nishanth",
+    name: "Nishanth",
     role: "Developer",
     desc: "Data analytics and integration specialist.",
     highlight: false,
