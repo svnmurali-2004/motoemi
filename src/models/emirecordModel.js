@@ -1,4 +1,5 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
+
 const emiRecordSchema = new mongoose.Schema({
   customerId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -26,5 +27,4 @@ const emiRecordSchema = new mongoose.Schema({
   ],
 });
 
-const emiRecord = mongoose.models.emirecord || mongoose.model("emirecords", emiRecordSchema);
-export default emiRecord;
+export default mongoose.models.emirecords ||mongoose.model("emirecords", emiRecordSchema);

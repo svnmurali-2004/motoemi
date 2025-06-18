@@ -13,12 +13,7 @@ export default  function Home() {
   const { data: session } = useSession();
   console.log("Session Data:", session);
   const [s,setS]=useState(true)
-  useEffect(() => {
-    const run = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    };
-    run();
-  }, [s]);
+  
   return (
     <>
       <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100 text-9xl text-orange-700">
