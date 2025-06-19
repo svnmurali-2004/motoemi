@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Lottie from "lottie-react";
 import gsap from "gsap";
-import errorAnimation from "../assets/error.json"; // adjust path
+import errorAnimation from "@/assets/error.json"; // adjust path
 import Link from "next/link";
 const Error = () => {
   const containerRef = useRef(null);

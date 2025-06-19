@@ -1,17 +1,17 @@
 "use client";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import React from "react";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { AuroraText } from "@/components/magicui/aurora-text";
 import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
 import { InteractiveGridPattern } from "@/components/magicui/interactive-grid-pattern";
 import { BoxReveal } from "@/components/magicui/box-reveal";
 import { cn } from "@/lib/utils";
-import { SmoothCursor } from "@/components/ui/smooth-cursor";
-import { Box } from "lucide-react";
+import Lottie from "lottie-react";
+import heroAnimation from "@/assets/hero.json"; // Adjust path as needed
 
 export default function Hero() {
   const router = useRouter();
+  const [isLottieLoaded, setIsLottieLoaded] = useState(false);
 
   const handleDashboardClick = () => {
     // Replace this with your actual authentication logic
@@ -24,7 +24,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen w-full flex flex-col-reverse md:flex-row items-center justify-between gap-10 md:gap-16 overflow-hidden bg-transparent ">
+    <section className="relative min-h-screen w-full flex flex-col-reverse md:flex-row items-center justify-between gap-10 md:gap-16 overflow-hidden bg-transparent">
       {/* Fullscreen Interactive Grid Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <InteractiveGridPattern
@@ -46,22 +46,25 @@ export default function Hero() {
           </AuroraText>
         </BoxReveal>
         <BoxReveal>
-        <p className="text-base sm:text-lg md:text-xl text-gray-900 font-semibold">
-          Predict whether your consignment is profitable or not with advanced
-          analytics.
-        </p>
-        <p className="text-sm sm:text-base md:text-lg text-gray-800 font-medium">
-          Leverage data-driven insights to make smarter logistics decisions,
-          minimize losses, and maximize your returns. Our tool helps you
-          evaluate consignments before you commit.
+          <p className="text-base sm:text-lg md:text-xl text-gray-900 font-semibold">
+            Predict whether your consignment is profitable or not with advanced
+            analytics.
           </p>
         </BoxReveal>
+        <BoxReveal>
+          <p className="text-sm sm:text-base md:text-lg text-gray-800 font-medium">
+            Leverage data-driven insights to make smarter logistics decisions,
+            minimize losses, and maximize your returns. Our tool helps you
+            evaluate consignments before you commit.
+          </p>
+        </BoxReveal>
+
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-2">
           <InteractiveHoverButton
             onClick={handleDashboardClick}
             className="px-8 py-3 font-semibold"
           >
-            Login to Continue
+            Go to Dashboard
           </InteractiveHoverButton>
           <span className="text-xs text-gray-700 mt-1 sm:mt-0">
             You must be logged in to access the dashboard.
@@ -70,11 +73,12 @@ export default function Hero() {
       </div>
       {/* Lottie Animation */}
       <div className="relative z-10 w-full md:w-[612px] flex justify-center items-center mb-8 md:mb-0">
-        <DotLottieReact
-          src="https://lottie.host/ca554ae1-d989-4925-8538-d409d2093928/XeXY5o0Tqv.lottie"
+        <Lottie
+          animationData={heroAnimation}
           loop
-          autoplay
+          onDOMLoaded={() => setIsLottieLoaded(true)}
           style={{
+            display: isLottieLoaded ? "block" : "none",
             width: "100%",
             maxWidth: 612,
             height: "auto",

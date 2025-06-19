@@ -28,7 +28,7 @@ export default function AboutUs() {
 
         {/* Flip Animation Line */}
 
-        <FlipText className="text-xl sm:text-2xl font-semibold text-indigo-600 -tracking-widest leading-[5rem]">
+        <FlipText className="text-xl sm:text-2xl font-semibold text-indigo-600 -tracking-widest leading-[5rem] break-words">
           Empowering Smarter Logistics Decisions
         </FlipText>
 

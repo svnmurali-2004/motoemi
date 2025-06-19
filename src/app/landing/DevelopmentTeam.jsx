@@ -1,6 +1,8 @@
 import React from "react";
 import { Marquee } from "@/components/magicui/marquee"; // Adjust path if needed
 import Image from "next/image"; // Ensure you have next/image installed
+import { SparklesText } from "@/components/magicui/sparkles-text";
+import { ShineBorder } from "@/components/magicui/shine-border"; // Adjust path if needed
 const team = [
   {
     name: "Svn.Murali",
@@ -36,12 +38,13 @@ export default function DevelopmentTeam() {
   return (
     <section className="py-16 px-4 md:px-12 lg:px-24 bg-white" id="team">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-indigo-700 mb-10 text-center">
+        <SparklesText className="text-3xl sm:text-4xl font-extrabold text-indigo-700 mb-10 text-center">
           Meet Our Development Team
-        </h2>
+        </SparklesText>
 
         {/* Team Lead - Horizontal Card */}
         <div className="flex justify-center mb-12">
+          <ShineBorder className="h-[10px]"/>
           <div className="relative bg-gradient-to-br from-indigo-100 to-indigo-300 rounded-xl shadow-xl p-4 flex items-center gap-6 border-4 border-indigo-600 w-full max-w-3xl">
             <div className="relative w-20 h-20 min-w-20 rounded-full overflow-hidden border-4 border-indigo-400 shadow">
               <Image

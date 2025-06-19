@@ -19,19 +19,29 @@ import Navbar from "./Navbar";
 import MarqueeSection from "./MarqueeSection";
 import FeaturesInfo from "./FeaturesInfo";
 import StatsSection from "./StatsSection";
+import {FollowerPointerCard} from "@/components/ui/following-pointer";
+import { SmoothCursor } from "@/components/ui/smooth-cursor";
+import { ScrollProgress } from "@/components/magicui/scroll-progress";
 // import { InteractiveGridPattern } from "@/components/magicui/interactive-grid-pattern";
 export default function MotoEMIPage() {
   return (
     <div className="relative overflow-hidden min-h-screen bg-gray-100">
+      <ScrollProgress />
+      <SmoothCursor />
       <Navbar />
+      
+
       <Hero />
+
       {/* Background particles */}
 
       <div id="about">
         <AboutUs id="about" />
       </div>
+
       <FeaturesInfo />
-      <MarqueeSection />
+      
+        <MarqueeSection />
       <StatsSection />
       <div id="team">
         <DevelopmentTeam />

@@ -9,6 +9,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useTheme } from "next-themes";
 import { signIn } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { SmoothCursor } from "@/components/ui/smooth-cursor";
  // Adjust the import path as needed
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -40,7 +41,8 @@ export default function LoginPage() {
   console.log("Current theme:", theme);
   console.log("Available themes:", ["light", "dark", "system"]);
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background text-foreground px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background text-foreground px-4 ">
+      <SmoothCursor />
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="space-y-2 text-center">
           <CardTitle className="text-2xl font-bold">
@@ -77,7 +79,7 @@ export default function LoginPage() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full cursor-none">
               Login
             </Button>
           </form>
@@ -96,7 +98,7 @@ export default function LoginPage() {
           <Button
             onClick={handleGoogleLogin}
             variant="outline"
-            className="w-full flex items-center justify-center gap-2"
+            className="w-full flex items-center justify-center gap-2 cursor-none"
           >
             <FcGoogle size={20} />
             Sign in with Google

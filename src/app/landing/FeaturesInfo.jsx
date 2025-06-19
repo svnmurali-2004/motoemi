@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Lock, BrainCog, BarChart3, TrendingUp } from "lucide-react";
-
+import { SmoothCursor } from "@/components/ui/smooth-cursor";
 export default function FeaturesInfo() {
   const features = [
     {
@@ -29,6 +29,7 @@ export default function FeaturesInfo() {
 
   return (
     <section className="bg-white py-20 px-4 md:px-12 lg:px-24" id="features">
+      
       <div className="max-w-6xl mx-auto text-center">
         <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-4">
           Key Features
