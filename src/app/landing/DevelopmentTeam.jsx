@@ -3,6 +3,8 @@ import { Marquee } from "@/components/magicui/marquee"; // Adjust path if needed
 import Image from "next/image"; // Ensure you have next/image installed
 import { SparklesText } from "@/components/magicui/sparkles-text";
 import { ShineBorder } from "@/components/magicui/shine-border"; // Adjust path if needed
+import { motion } from "framer-motion";
+
 const team = [
   {
     name: "Svn.Murali",
@@ -36,15 +38,28 @@ const team = [
 
 export default function DevelopmentTeam() {
   return (
-    <section className="py-16 px-4 md:px-12 lg:px-24 bg-white" id="team">
+    <motion.section
+      className="py-16 px-4 md:px-12 lg:px-24 bg-white"
+      id="team"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.7 }}
+    >
       <div className="max-w-6xl mx-auto">
         <SparklesText className="text-3xl sm:text-4xl font-extrabold text-indigo-700 mb-10 text-center">
           Meet Our Development Team
         </SparklesText>
 
         {/* Team Lead - Horizontal Card */}
-        <div className="flex justify-center mb-12">
-          <ShineBorder className="h-[10px]"/>
+        <motion.div
+          className="flex justify-center mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+        >
+          <ShineBorder className="h-[10px]" />
           <div className="relative bg-gradient-to-br from-indigo-100 to-indigo-300 rounded-xl shadow-xl p-4 flex items-center gap-6 border-4 border-indigo-600 w-full max-w-3xl">
             <div className="relative w-20 h-20 min-w-20 rounded-full overflow-hidden border-4 border-indigo-400 shadow">
               <Image
@@ -67,10 +82,16 @@ export default function DevelopmentTeam() {
               Team Lead
             </span>
           </div>
-        </div>
+        </motion.div>
 
         {/* Other Team Members - Horizontal scroll using Marquee */}
-        <div className="w-full">
+        <motion.div
+          className="w-full"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+        >
           <Marquee pauseOnHover className="py-2">
             {team.slice(1).map((member) => (
               <div
@@ -92,8 +113,8 @@ export default function DevelopmentTeam() {
               </div>
             ))}
           </Marquee>
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }

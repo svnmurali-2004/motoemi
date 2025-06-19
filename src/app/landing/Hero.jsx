@@ -8,6 +8,7 @@ import { BoxReveal } from "@/components/magicui/box-reveal";
 import { cn } from "@/lib/utils";
 import Lottie from "lottie-react";
 import heroAnimation from "@/assets/hero.json"; // Adjust path as needed
+import { motion } from "framer-motion";
 
 export default function Hero() {
   const router = useRouter();
@@ -24,7 +25,12 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen w-full flex flex-col-reverse md:flex-row items-center justify-between gap-10 md:gap-16 overflow-hidden bg-transparent">
+    <motion.section
+      className="relative min-h-screen w-full flex flex-col-reverse md:flex-row items-center justify-between gap-10 md:gap-16 overflow-hidden bg-transparent"
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+    >
       {/* Fullscreen Interactive Grid Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <InteractiveGridPattern
@@ -36,7 +42,12 @@ export default function Hero() {
         />
       </div>
       {/* Text Content */}
-      <div className="relative z-20 w-full md:flex-1 flex flex-col items-start text-left space-y-5 md:space-y-7 lg:space-y-8 md:pr-8 lg:pr-16 px-4 md:px-12 lg:px-24">
+      <motion.div
+        className="relative z-20 w-full md:flex-1 flex flex-col items-start text-left space-y-5 md:space-y-7 lg:space-y-8 md:pr-8 lg:pr-16 px-4 md:px-12 lg:px-24"
+        initial={{ opacity: 0, x: -40 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.7, delay: 0.2 }}
+      >
         <BoxReveal>
           <AuroraText
             as="h1"
@@ -70,9 +81,14 @@ export default function Hero() {
             You must be logged in to access the dashboard.
           </span>
         </div>
-      </div>
+      </motion.div>
       {/* Lottie Animation */}
-      <div className="relative z-10 w-full md:w-[612px] flex justify-center items-center mb-8 md:mb-0">
+      <motion.div
+        className="relative z-10 w-full md:w-[612px] flex justify-center items-center mb-8 md:mb-0"
+        initial={{ opacity: 0, x: 40 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.7, delay: 0.3 }}
+      >
         <Lottie
           animationData={heroAnimation}
           loop
@@ -86,7 +102,7 @@ export default function Hero() {
             aspectRatio: "612 / 330",
           }}
         />
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 }

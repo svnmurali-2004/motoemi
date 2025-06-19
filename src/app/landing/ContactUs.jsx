@@ -1,11 +1,18 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function ContactUs() {
   return (
-    <footer className="w-full px-4 py-16 bg-gradient-to-r from-indigo-50 via-white to-indigo-100">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 bg-white rounded-2xl border border-indigo-200 shadow-lg p-6 md:p-10 animate-fade-in">
+    <motion.footer
+      className="w-full px-4 py-16 bg-gradient-to-r from-indigo-50 via-white to-indigo-100"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.7 }}
+    >
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 bg-white rounded-2xl border border-indigo-200 shadow-lg p-6 md:p-10">
         {/* Left: Info */}
         <div className="flex flex-col items-start gap-4 max-w-md">
           <div className="flex items-center gap-3">
@@ -81,24 +88,6 @@ export default function ContactUs() {
           </Link>
         </div>
       </div>
-
-      {/* Fade-in Animation */}
-      <style jsx>{`
-        .animate-fade-in {
-          animation: fadeInUp 0.8s ease-out;
-        }
-
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(40px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
-    </footer>
+    </motion.footer>
   );
 }

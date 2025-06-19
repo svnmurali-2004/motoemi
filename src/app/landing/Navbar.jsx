@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 function scrollToSection(e, id) {
   e.preventDefault();
@@ -10,7 +11,12 @@ function scrollToSection(e, id) {
 
 export default function Navbar() {
   return (
-    <nav className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur border-b border-indigo-100 shadow-sm">
+    <motion.nav
+      className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur border-b border-indigo-100 shadow-sm"
+      initial={{ opacity: 0, y: -30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7 }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-between h-16">
         {/* Logo */}
         <div className="flex items-center gap-2">
@@ -56,6 +62,6 @@ export default function Navbar() {
           {/* You can add a mobile menu here if needed */}
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 }

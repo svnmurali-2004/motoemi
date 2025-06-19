@@ -2,6 +2,7 @@
 import React from "react";
 import { Lock, BrainCog, BarChart3, TrendingUp } from "lucide-react";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
+import { motion } from "framer-motion";
 export default function FeaturesInfo() {
   const features = [
     {
@@ -28,8 +29,14 @@ export default function FeaturesInfo() {
   ];
 
   return (
-    <section className="bg-white py-20 px-4 md:px-12 lg:px-24" id="features">
-      
+    <motion.section
+      className="bg-white py-20 px-4 md:px-12 lg:px-24"
+      id="features"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.7 }}
+    >
       <div className="max-w-6xl mx-auto text-center">
         <h2 className="text-3xl sm:text-4xl font-bold text-indigo-700 mb-4">
           Key Features
@@ -38,10 +45,23 @@ export default function FeaturesInfo() {
           Everything you need to optimize your logistics workflow.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            visible: { transition: { staggerChildren: 0.15 } },
+          }}
+        >
           {features.map((feature, index) => (
-            <div
+            <motion.div
               key={index}
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
               className={`p-6 rounded-xl border shadow-sm flex flex-col items-start gap-4 transition-all hover:shadow-lg ${
                 feature.highlight
                   ? "border-indigo-500 bg-indigo-50 scale-[1.02]"
@@ -55,10 +75,10 @@ export default function FeaturesInfo() {
                 {feature.title}
               </h3>
               <p className="text-gray-700 text-sm">{feature.desc}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }
