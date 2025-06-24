@@ -40,7 +40,7 @@ export default function ContactUs() {
             </div>
             <div>
               <h2 className="text-xl sm:text-2xl font-bold text-indigo-700">
-                CN Profitability Predictor
+                Surya Vanshi Auto Finance
               </h2>
               <p className="text-sm text-indigo-600 font-medium">Contact Us</p>
             </div>
@@ -48,29 +48,26 @@ export default function ContactUs() {
 
           <div className="space-y-1 text-sm text-gray-700">
             <p>
-              <span className="font-semibold">Team:</span> CN Profitability Team
-            </p>
-            <p>
-              <span className="font-semibold">Email:</span>{" "}
-              <a
-                href="mailto:support@cnprofit.com"
-                className="text-indigo-600 underline hover:text-indigo-800"
-              >
-                support@cnprofit.com
-              </a>
+              <span className="font-semibold">Business:</span> Vehicle EMI
+              Management
             </p>
             <p>
               <span className="font-semibold">Phone:</span>{" "}
               <a
-                href="tel:+919876543210"
+                href="tel:+919347234371"
                 className="text-indigo-600 underline hover:text-indigo-800"
               >
-                +91 98765 43210
+                +91 93472 34371
               </a>
             </p>
             <p>
-              <span className="font-semibold">Address:</span> 123, Main Street,
-              Bengaluru, India
+              <span className="font-semibold">Address:</span> 10-5-717/1,
+              Tukaram Gate,
+              <br />
+              North Lallaguda, Secunderabad - 500017
+            </p>
+            <p>
+              <span className="font-semibold">Office Code:</span> 1006
             </p>
           </div>
         </div>
@@ -78,16 +75,17 @@ export default function ContactUs() {
         {/* Right: Link */}
         <div className="text-center md:text-right">
           <p className="text-sm text-gray-600 mb-2">
-            Want to know more about the team?
+            Learn more about our business.
           </p>
           <Link
             href="/about"
             className="inline-block text-indigo-600 underline font-medium hover:text-indigo-800 transition"
           >
-            Learn more →
+            Read our story →
           </Link>
         </div>
       </div>
     </motion.footer>
   );
 }
+

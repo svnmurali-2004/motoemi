@@ -8,73 +8,65 @@ export async function POST(req) {
   await db();
   const body = await req.json();
   const {
-    customerNo,
-    name,
-    phone,
-    guarantorName,
-    guarantorPhone,
+    customerName,
+    mobileNo,
+    suretyName,
+    suretyMobileNo,
     vehicleNo,
-    vehicleClass,
-    vehicleModel,
-    chassisNo,
-    engineNo,
-    costPaid,
-    emi, // number of months
+    hsnNo,
+    suretyAddress,
+    customerAddress,
+    emiMonths,
+    totalAmount,
     interestRate, // annual %
     garageDate,
-    customerAddress,
-    customerArea,
   } = body;
-  
+
   try {
-    // Create Customer (initially without emiRecords)
     if (
-      !customerNo ||
-      !name ||
-      !phone ||
+      !customerName ||
+      !mobileNo ||
+      !suretyName ||
+      !suretyMobileNo ||
       !vehicleNo ||
-      !costPaid ||
-      !emi ||
+      !emiMonths ||
+      !totalAmount ||
       !interestRate ||
       !garageDate
     ) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
-      )
+      );
     }
-    const customer = await Customer.create({
-      customerNo,
-      name,
-      phone,
-      guarantorName,
-      guarantorPhone,
-      vehicleNo,
-      vehicleClass,
-      vehicleModel,
-      chassisNo,
-      engineNo,
-      costPaid,
-      due: costPaid, // total amount initially due
-      emi,
-      garageDate,
-      dueDate: dayjs(garageDate).add(1, "month").toDate(),
-      customerAddress,
-      customerArea,
-    });
 
-    // EMI Calculation (Simple reducing-balance interest method)
-    const P = costPaid;
+    // EMI Calculation (reducing-balance method)
+    const P = totalAmount;
     const r = interestRate / 100 / 12; // monthly interest rate
-    const n = emi;
+    const n = emiMonths;
 
     const emiAmount = parseFloat(
       ((P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1)).toFixed(2)
     );
 
+    // Create Customer (without emiRecords for now)
+    const customer = await Customer.create({
+      customerName,
+      mobileNo,
+      suretyName,
+      suretyMobileNo,
+      vehicleNo,
+      hsnNo,
+      suretyAddress,
+      customerAddress,
+      emiMonths,
+      emiAmount,
+      totalAmount,
+      emiRecords: [],
+    });
+
     // Generate EMI records
     const emiRecords = [];
-
     for (let i = 0; i < n; i++) {
       emiRecords.push({
         customerId: customer._id,
@@ -93,12 +85,14 @@ export async function POST(req) {
     await customer.save();
 
     return NextResponse.json({
+      ok: true,
       message: "Customer and EMI records created successfully",
       customer,
     });
   } catch (error) {
     console.error("Error in creating customer with EMI:", error);
     return NextResponse.json({
+      ok: false,
       message: "Something went wrong",
       error: error.message,
     });

@@ -18,15 +18,16 @@ export default function Navbar() {
       transition={{ duration: 0.7 }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-between h-16">
-        {/* Logo */}
+        {/* Logo and Name */}
         <div className="flex items-center gap-2">
           <span className="inline-block w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xl shadow">
-            CN
+            SF
           </span>
           <span className="font-extrabold text-indigo-700 text-lg tracking-tight">
-            Profitability Predictor
+            Surya Vanshi Auto Finance
           </span>
         </div>
+
         {/* Navigation Links */}
         <div className="hidden md:flex gap-8 items-center">
           <a
@@ -37,11 +38,11 @@ export default function Navbar() {
             About
           </a>
           <a
-            href="#team"
-            onClick={(e) => scrollToSection(e, "team")}
+            href="#services"
+            onClick={(e) => scrollToSection(e, "services")}
             className="text-gray-700 hover:text-indigo-600 font-medium transition"
           >
-            Team
+            Services
           </a>
           <a
             href="#contact"
@@ -51,16 +52,15 @@ export default function Navbar() {
             Contact
           </a>
           <a
-            href="/admin/dashboard"
+            href="/login"
             className="ml-4 px-4 py-2 rounded bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition"
           >
-            Dashboard
+            Login
           </a>
         </div>
-        {/* Mobile Hamburger */}
-        <div className="md:hidden">
-          {/* You can add a mobile menu here if needed */}
-        </div>
+
+        {/* Mobile Hamburger (Optional) */}
+        <div className="md:hidden">{/* Add mobile menu logic if needed */}</div>
       </div>
     </motion.nav>
   );

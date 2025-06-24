@@ -2,24 +2,17 @@ import mongoose from "mongoose";
 
 const customerSchema = new mongoose.Schema(
   {
-    customerNo: { type: Number, required: true, unique: true },
-    name: String,
-    phone: String,
-    guarantorName: String,
-    guarantorPhone: String,
-    vehicleNo: String,
-    vehicleClass: String,
-    vehicleModel: String,
-    chassisNo: String,
-    engineNo: String,
-    costPaid: Number,
-    due: Number,
-    emi: Number,
-    garageDate: Date,
-    dueDate: Date,
-    lastPaidDate: Date,
-    customerAddress: String,
-    customerArea: String,
+    customerName: { type: String, required: true }, // NAME
+    mobileNo: { type: String, required: true }, // Mobile No.
+    suretyName: { type: String, required: true }, // Surety Name
+    suretyMobileNo: { type: String, required: true }, // Surety Mobile No.
+    vehicleNo: { type: String, required: true }, // Vehicle No.
+    hsnNo: { type: String ,required:true}, // HSN No
+    suretyAddress: { type: String }, // Surety Address
+    customerAddress: { type: String }, // Customer Address
+    emiMonths: { type: Number, required: true }, // EMI Months
+    emiAmount: { type: Number, required: true }, // EMI Amount
+    totalAmount: { type: Number, required: true }, // Total Amount
     emiRecords: [
       {
         type: mongoose.Schema.Types.ObjectId,

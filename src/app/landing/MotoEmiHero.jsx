@@ -5,18 +5,16 @@ import { AuroraText } from "@/components/magicui/aurora-text";
 import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
 import { InteractiveGridPattern } from "@/components/magicui/interactive-grid-pattern";
 import { BoxReveal } from "@/components/magicui/box-reveal";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils.js";
 import Lottie from "lottie-react";
-import heroAnimation from "@/assets/emihero.json"; // Adjust path as needed
+import heroAnimation from "@/assets/hero.json"; // Keep your current Lottie or update if needed
 import { motion } from "framer-motion";
-
-export default function Hero() {
+export default function MotoEmiHero() {
   const router = useRouter();
   const [isLottieLoaded, setIsLottieLoaded] = useState(false);
 
   const handleDashboardClick = () => {
-    // Replace this with your actual authentication logic
-    const isLoggedIn = false; // TODO: Replace with real auth check
+    const isLoggedIn = false; // Replace with real authentication logic
     if (isLoggedIn) {
       router.push("/admin/dashboard");
     } else {
@@ -31,7 +29,7 @@ export default function Hero() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
     >
-      {/* Fullscreen Interactive Grid Background */}
+      {/* Background Grid */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <InteractiveGridPattern
           className={cn("w-full h-full")}
@@ -41,7 +39,8 @@ export default function Hero() {
           squaresClassName="hover:fill-blue-500"
         />
       </div>
-      {/* Text Content */}
+
+      {/* Text Section */}
       <motion.div
         className="relative z-20 w-full md:flex-1 flex flex-col items-start text-left space-y-5 md:space-y-7 lg:space-y-8 md:pr-8 lg:pr-16 px-4 md:px-12 lg:px-24"
         initial={{ opacity: 0, x: -40 }}
@@ -53,20 +52,21 @@ export default function Hero() {
             as="h1"
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-2 md:mb-4 drop-shadow-lg leading-tight text-gray-900"
           >
-            CN Profitability Predictor
+            Surya Vanshi Auto Finance
           </AuroraText>
         </BoxReveal>
+
         <BoxReveal>
           <p className="text-base sm:text-lg md:text-xl text-gray-900 font-semibold">
-            Predict whether your consignment is profitable or not with advanced
-            analytics.
+            Hassle-free EMI Tracking for Your Vehicles
           </p>
         </BoxReveal>
+
         <BoxReveal>
           <p className="text-sm sm:text-base md:text-lg text-gray-800 font-medium">
-            Leverage data-driven insights to make smarter logistics decisions,
-            minimize losses, and maximize your returns. Our tool helps you
-            evaluate consignments before you commit.
+            Easily manage all your vehicle EMI payments, penalties, and receipts
+            from one place. Stay updated with due dates and outstanding
+            balances. Built for smart financing and simple record keeping.
           </p>
         </BoxReveal>
 
@@ -75,14 +75,15 @@ export default function Hero() {
             onClick={handleDashboardClick}
             className="px-8 py-3 font-semibold"
           >
-            Go to Dashboard
+            View EMI Dashboard
           </InteractiveHoverButton>
           <span className="text-xs text-gray-700 mt-1 sm:mt-0">
-            You must be logged in to access the dashboard.
+            Login required to access your finance records.
           </span>
         </div>
       </motion.div>
-      {/* Lottie Animation */}
+
+      {/* Lottie Section */}
       <motion.div
         className="relative z-10 w-full md:w-[612px] flex justify-center items-center mb-8 md:mb-0"
         initial={{ opacity: 0, x: 40 }}

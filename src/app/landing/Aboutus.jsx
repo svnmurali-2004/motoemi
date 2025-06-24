@@ -38,42 +38,39 @@ export default function AboutUs() {
         viewport={{ once: true }}
         transition={{ duration: 0.7, delay: 0.2 }}
       >
-        {/* Heading with BoxReveal */}
         <BoxReveal>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-indigo-700 mb-2">
             About Us
           </h2>
         </BoxReveal>
 
-        {/* Flip Animation Line */}
-
         <FlipText className="text-xl sm:text-2xl font-semibold text-indigo-600 -tracking-widest leading-[5rem] break-words">
-          Empowering Smarter Logistics Decisions
+          Financing Made Simple & Reliable
         </FlipText>
 
-        {/* Main Description */}
         <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-          We help businesses and individuals make better logistics decisions
-          using real-time data and predictive insights.
-        </p>
-
-        <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-          Our{" "}
+          At{" "}
           <span className="font-semibold text-indigo-600">
-            CN Profitability Predictor
-          </span>{" "}
-          uses advanced analytics to forecast profitability — before a
-          consignment even moves.
+            Surya Vanshi Auto Finance
+          </span>
+          , we offer transparent and reliable vehicle financing solutions
+          tailored to your needs.
         </p>
 
         <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-          With a strong focus on accuracy and simplicity, we blend logistics
-          expertise with cutting-edge technology.
+          We maintain detailed EMI records, including penalties, outstanding
+          balances, and receipt tracking to ensure accuracy and accountability.
+        </p>
+
+        <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+          Serving customers from our office in{" "}
+          <strong>Tukaram Gate, North Lallaguda, Secunderabad</strong>, we aim
+          to simplify your financial journey with professionalism and trust.
         </p>
 
         <p className="text-base sm:text-lg text-indigo-700 font-semibold leading-relaxed">
-          Join us as we revolutionize logistics with intelligent predictions and
-          smarter systems!
+          Contact us today at <strong>93472 34371</strong> — we're here to
+          support your auto finance needs every step of the way!
         </p>
       </motion.div>
     </motion.section>

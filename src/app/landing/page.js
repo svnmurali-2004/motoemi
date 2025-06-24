@@ -11,7 +11,7 @@ import { Ripple } from "@/components/magicui/ripple";
 import { Confetti } from "@/components/magicui/confetti";
 import { Particles } from "@/components/magicui/particles";
 import { Safari } from "@/components/magicui/safari";
-import Hero from "./Hero";
+import  MotoEmiHero from "./MotoEmiHero";
 import AboutUs from "./Aboutus";
 import ContactUs from "./ContactUs";
 import DevelopmentTeam from "./DevelopmentTeam";
@@ -31,7 +31,7 @@ export default function MotoEMIPage() {
       <Navbar />
       
 
-      <Hero />
+      <MotoEmiHero />
 
       {/* Background particles */}
 

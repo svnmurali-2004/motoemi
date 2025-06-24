@@ -8,13 +8,13 @@ const NotFound = () => {
   const containerRef = useRef(null);
   const [isLottieLoaded, setIsLottieLoaded] = useState(false);
 
-//   useEffect(() => {
-//     gsap.fromTo(
-//       containerRef.current,
-//       { opacity: 0, y: 50 },
-//       { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" }
-//     );
-//   }, []);
+  //   useEffect(() => {
+  //     gsap.fromTo(
+  //       containerRef.current,
+  //       { opacity: 0, y: 50 },
+  //       { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" }
+  //     );
+  //   }, []);
 
   return (
     <div

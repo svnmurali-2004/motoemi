@@ -9,13 +9,17 @@ const emiRecordSchema = new mongoose.Schema({
   emiNumber: Number,
   dueDate: Date,
   dueAmount: Number,
+  paidDate: {
+    type: Date,
+    default: null,
+  },
   status: {
     type: String,
-    enum: ["due", "partial", "paid", "late"],
+    enum: ["due", "paid"],
     default: "due",
   },
   totalPaidAmount: { type: Number, default: 0 },
-  receipts: [
+  receipts: 
     {
       receiptId: String,
       paidAmount: Number,
@@ -23,8 +27,7 @@ const emiRecordSchema = new mongoose.Schema({
       paymentMode: String,
       url: String,
       generatedAt: Date,
-    },
-  ],
+    }
 });
 
 export default mongoose.models.emirecords ||mongoose.model("emirecords", emiRecordSchema);

@@ -1,41 +1,23 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import Lottie from "lottie-react";
-import gsap from "gsap";
-import errorAnimation from "@/assets/error.json"; // adjust path
+import errAnimation from "../assets/error.json";
 import Link from "next/link";
+
 const Error = () => {
-  const containerRef = useRef(null);
-  const [isLottieLoaded, setIsLottieLoaded] = useState(false);
-
-  useEffect(() => {
-    gsap.fromTo(
-      containerRef.current,
-      { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" }
-    );
-  }, []);
-
   return (
-    <div
-      ref={containerRef}
-      className="min-h-screen flex flex-col items-center justify-center bg-[#0f172a] text-white text-center px-6"
-    >
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#0f172a] text-white text-center px-6">
       <div className="max-w-md w-full">
-        {!isLottieLoaded && (
-          <div className="mb-6 text-gray-400 animate-pulse">
-            Loading animation...
-          </div>
-        )}
-
-        <Lottie
-          animationData={errorAnimation}
-          loop
-        />
-
+        <div className="z-50" style={{ width: 300, height: 300, margin: "0 auto" }}>
+          <Lottie
+            animationData={errAnimation}
+            loop
+            style={{ width: "300px", height: "300px", display: "block" }}
+          />
+        </div>
         <h1 className="text-3xl font-bold mt-6">Error Occurred</h1>
         <p className="mt-2 text-gray-300">
-          An error occurred while fetching the page you are looking for does not exist or has been moved.
+          An error occurred while fetching the page 
         </p>
         <Link
           href="/"
@@ -49,3 +31,6 @@ const Error = () => {
 };
 
 export default Error;
+ 
+          
+
