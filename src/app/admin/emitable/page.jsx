@@ -248,25 +248,25 @@ export default function DataTableDemo() {
   });
 
   return (
-    <div className="w-full max-w-full">
+    <div className="w-full max-w-full dark:bg-zinc-900 dark:text-gray-100">
       {/* Filters: sticky and always visible, OUTSIDE scrollable table */}
-      <div className="sticky top-0 z-10 bg-white border-b flex items-center py-4 gap-2 flex-wrap">
+      <div className="sticky top-0 z-10 bg-white dark:bg-zinc-900 border-b dark:border-zinc-800 flex items-center py-4 gap-2 flex-wrap">
         <Input
           placeholder="Filter HSN Number"
           value={hsnFilter}
           onChange={(e) => setHsnFilter(e.target.value)}
-          className="max-w-xs"
+          className="max-w-xs bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-zinc-700 placeholder:text-gray-500 dark:placeholder:text-gray-400"
         />
         <Input
           placeholder="Filter Surety Name"
           value={nameFilter}
           onChange={(e) => setNameFilter(e.target.value)}
-          className="max-w-xs"
+          className="max-w-xs bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-zinc-700 placeholder:text-gray-500 dark:placeholder:text-gray-400"
         />
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="border rounded px-2 py-2 text-sm"
+          className="border rounded px-2 py-2 text-sm bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-zinc-700"
         >
           <option value="all">All Status</option>
           <option value="paid">Paid</option>
@@ -274,11 +274,17 @@ export default function DataTableDemo() {
         </select>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button
+              variant="outline"
+              className="ml-auto bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-zinc-700"
+            >
               Columns <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent
+            align="end"
+            className="bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-zinc-700"
+          >
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
@@ -286,7 +292,7 @@ export default function DataTableDemo() {
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
-                    className="capitalize"
+                    className="capitalize bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-zinc-700"
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)
@@ -300,7 +306,7 @@ export default function DataTableDemo() {
         </DropdownMenu>
       </div>
       {/* Table: horizontally scrollable, filters do NOT scroll */}
-      <div className="rounded-md border overflow-x-auto w-full bg-white dark:bg-zinc-900 dark:border-zinc-800">
+      <div className="rounded-md border overflow-x-auto w-full bg-white dark:bg-zinc-900 dark:border-zinc-800 max-h-[70vh]">
         <Table className="min-w-[1200px] w-full text-gray-900 dark:text-gray-100 dark:bg-zinc-900">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

@@ -4,6 +4,16 @@
   image-rendering: pixelated;
 }
 
+input, select, textarea, .dropdown-menu, .dropdown-menu-content {
+  background-color: var(--input);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+.dark input, .dark select, .dark textarea, .dark .dropdown-menu, .dark .dropdown-menu-content {
+  background-color: var(--input);
+  color: var(--foreground);
+  border-color: var(--border);
+}
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
