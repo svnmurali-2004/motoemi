@@ -300,14 +300,17 @@ export default function DataTableDemo() {
         </DropdownMenu>
       </div>
       {/* Table: horizontally scrollable, filters do NOT scroll */}
-      <div className="rounded-md border overflow-x-auto w-full">
-        <Table className="min-w-[1200px] w-full">
+      <div className="rounded-md border overflow-x-auto w-full bg-white dark:bg-zinc-900 dark:border-zinc-800">
+        <Table className="min-w-[1200px] w-full text-gray-900 dark:text-gray-100 dark:bg-zinc-900">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      key={header.id}
+                      className="bg-gray-100 dark:bg-zinc-800 text-gray-900 dark:text-gray-100"
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -328,7 +331,10 @@ export default function DataTableDemo() {
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="text-center">
+                    <TableCell
+                      key={cell.id}
+                      className="text-center bg-white dark:bg-zinc-900 text-gray-900 dark:text-gray-100"
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -341,7 +347,7 @@ export default function DataTableDemo() {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-24 text-center bg-white dark:bg-zinc-900 text-gray-900 dark:text-gray-100"
                 >
                   No results.
                 </TableCell>
