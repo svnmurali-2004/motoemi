@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import AuthButton from "@/components/AuthButton";
-import { useSession } from "next-auth/react";
 import { ChartBarDefault } from "@/components/ChartBarDefault.js";
 import { PieChartDemo } from "@/components/PieChartDefault";
 import {  PieDonutDemo } from "@/components/PieDonutDefault";
@@ -10,8 +9,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Loading  from "./loading";
 export default  function Home() {
-  const { data: session } = useSession();
-  console.log("Session Data:", session);
   const [s,setS]=useState(true)
   
   return (

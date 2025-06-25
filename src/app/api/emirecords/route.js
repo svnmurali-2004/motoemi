@@ -40,7 +40,7 @@ export async function GET(req) {
         },
       },
     ]);
-    return NextResponse.json({ ok: true, records });
+    return NextResponse.json({ ok: true, emiRecords:records });
   } catch (error) {
     return NextResponse.json(
       { ok: false, message: error.message },

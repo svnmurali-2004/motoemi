@@ -34,25 +34,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-const data = [
-  {
-    _id: "685aafca52fe5dc904c1a1e9",
-    customerId: "685aafc952fe5dc904c1a1e7",
-    emiNumber: 1,
-    dueDate: "2025-06-30T18:30:00.000Z",
-    dueAmount: 5330.93,
-    status: "due",
-    mobileNo: "9876543210",
-    vehicleNo: "TS09AB1234",
-    hsnNo: "HSN56789",
-    suretyName: "Anil Verma",
-    suretyMobileNo: "9123456780",
-    suretyAddress: "14/2, Gandhi Street, Hyderabad, Telangana",
-    customerAddress: "Plot 32, Laxmi Nagar, Hyderabad, Telangana",
-    emiMonths: 12,
-  },
-];
+import CreateCustomerDialog from "./createCustomer";
 
 export const columns = [
   {
@@ -218,6 +200,28 @@ export default function DataTableDemo() {
   const [hsnFilter, setHsnFilter] = React.useState("");
   const [statusFilter, setStatusFilter] = React.useState("all");
   const [nameFilter, setNameFilter] = React.useState("");
+  const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  const [refresh, setRefresh] = React.useState(false);
+
+  React.useEffect(() => {
+    async function fetchCustomers() {
+      setLoading(true);
+      try {
+        const res = await fetch("/api/emirecords", {
+          headers: { "Content-Type": "application/json" },
+        });
+        const json = await res.json();
+        if (json.ok) setData(json.emiRecords);
+        else setData([]);
+      } catch (e) {
+        setData([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchCustomers();
+  }, [refresh]);
 
   React.useEffect(() => {
     const filters = [];
@@ -249,61 +253,69 @@ export default function DataTableDemo() {
 
   return (
     <div className="w-full max-w-full dark:bg-zinc-900 dark:text-gray-100">
-      {/* Filters: sticky and always visible, OUTSIDE scrollable table */}
-      <div className="sticky top-0 z-10 bg-white dark:bg-zinc-900 border-b dark:border-zinc-800 flex items-center py-4 gap-2 flex-wrap">
-        <Input
-          placeholder="Filter HSN Number"
-          value={hsnFilter}
-          onChange={(e) => setHsnFilter(e.target.value)}
-          className="max-w-xs bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-zinc-700 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+      <div className="flex items-center justify-between sticky top-0 z-10 bg-white dark:bg-zinc-900 border-b dark:border-zinc-800 py-4 gap-2 flex-wrap">
+        <CreateCustomerDialog
+          onCreate={(newCustomer) => {
+            setRefresh((prev) => !prev);
+            console.log("New customer created:", newCustomer);
+          }}
         />
-        <Input
-          placeholder="Filter Surety Name"
-          value={nameFilter}
-          onChange={(e) => setNameFilter(e.target.value)}
-          className="max-w-xs bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-zinc-700 placeholder:text-gray-500 dark:placeholder:text-gray-400"
-        />
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="border rounded px-2 py-2 text-sm bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-zinc-700"
-        >
-          <option value="all">All Status</option>
-          <option value="paid">Paid</option>
-          <option value="due">Due</option>
-        </select>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              className="ml-auto bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-zinc-700"
-            >
-              Columns <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="end"
-            className="bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-zinc-700"
+        {/* Filters: sticky and always visible, OUTSIDE scrollable table */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <Input
+            placeholder="Filter HSN Number"
+            value={hsnFilter}
+            onChange={(e) => setHsnFilter(e.target.value)}
+            className="max-w-xs bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-zinc-700 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+          />
+          <Input
+            placeholder="Filter Surety Name"
+            value={nameFilter}
+            onChange={(e) => setNameFilter(e.target.value)}
+            className="max-w-xs bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-zinc-700 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+          />
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="border rounded px-2 py-2 text-sm bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-zinc-700"
           >
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-zinc-700"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+            <option value="all">All Status</option>
+            <option value="paid">Paid</option>
+            <option value="due">Due</option>
+          </select>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="ml-auto bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-zinc-700"
+              >
+                Columns <ChevronDown />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              className="bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-zinc-700"
+            >
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-zinc-700"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  );
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
       {/* Table: horizontally scrollable, filters do NOT scroll */}
       <div className="rounded-md border overflow-x-auto w-full bg-white dark:bg-zinc-900 dark:border-zinc-800 max-h-[70vh]">

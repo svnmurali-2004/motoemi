@@ -19,18 +19,14 @@ const userSchema=new mongoose.Schema({
     role: {
         type: String,
         default: "user",
-        enum: ['user', 'admin', 'superadmin']
+        enum: ['user', 'admin', 'employee']
     },
     phone: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true
+        type: Number
     },
     branch: {
         type: String,
-        required: true,
-        trim: true
+        default:""
     },
     createdAt: {
         type: Date,

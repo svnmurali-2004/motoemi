@@ -51,10 +51,32 @@ const menuData = [
     label: "Main",
     collapsible: false,
     items: [
-      { title: "Emirecords", url: "/admin/emitable", icon: FileText },
-      { title: "Receipts", url: "/admin/receipts", icon: Search },
+      { title: "DeliveryReceipts:", url: "/employee/receipts", icon: FileText },
     ],
   },
+  //   {
+  //     label: "Settings",
+  //     collapsible: false,
+  //     items: [{ title: "Preferences", url: "/settings", icon: Settings }],
+  //   },
+  //   {
+  //     label: "Statistics",
+  //     collapsible: true,
+  //     items: [
+  //       { title: "Analytics", url: "/analytics", icon: Calendar },
+  //       { title: "Reports", url: "/reports", icon: FileText },
+  //       { title: "Insights", url: "/insights", icon: Search },
+  //     ],
+  //   },
+  //   {
+  //     label: "Help & Legal",
+  //     collapsible: true,
+  //     items: [
+  //       { title: "Documentation", url: "/docs", icon: FileText },
+  //       { title: "Support", url: "/help", icon: HelpCircle },
+  //       { title: "Privacy", url: "/privacy", icon: ShieldCheck },
+  //     ],
+  //   },
 ];
 
 export default function AppSidebar({

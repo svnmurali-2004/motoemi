@@ -18,7 +18,8 @@ export async function POST(req) {
     customerAddress,
     emiMonths,
     totalAmount,
-    interestRate, // annual %
+    intrestRate, // annual %
+    branch,
     garageDate,
   } = body;
 
@@ -29,9 +30,11 @@ export async function POST(req) {
       !suretyName ||
       !suretyMobileNo ||
       !vehicleNo ||
+      !hsnNo ||
       !emiMonths ||
       !totalAmount ||
-      !interestRate ||
+      !intrestRate ||
+      !branch ||
       !garageDate
     ) {
       return NextResponse.json(
@@ -42,7 +45,7 @@ export async function POST(req) {
 
     // EMI Calculation (reducing-balance method)
     const P = totalAmount;
-    const r = interestRate / 100 / 12; // monthly interest rate
+    const r = intrestRate / 100 / 12; // monthly interest rate
     const n = emiMonths;
 
     const emiAmount = parseFloat(
@@ -62,6 +65,9 @@ export async function POST(req) {
       emiMonths,
       emiAmount,
       totalAmount,
+      intrestRate,
+      branch,
+      garageDate,
       emiRecords: [],
     });
 
@@ -88,6 +94,7 @@ export async function POST(req) {
       ok: true,
       message: "Customer and EMI records created successfully",
       customer,
+      emiRecords: createdEmis,
     });
   } catch (error) {
     console.error("Error in creating customer with EMI:", error);

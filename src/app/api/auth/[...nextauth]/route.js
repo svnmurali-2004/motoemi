@@ -6,7 +6,7 @@ import users from "@/models/userModel"; // Adjust path as needed
 // Import or define verifyPassword
 import { verifyPassword } from "@/lib/hash"; // Adjust path as needed
 import db from "@/dbConfig/dbConfig"; // Adjust path as needed
-const handler = NextAuth({
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -17,40 +17,51 @@ const handler = NextAuth({
           type: "password",
           placeholder: "Password",
         },
+        role: {
+          label: "Role",
+          type: "text",
+          placeholder: "admin or employee",
+        },
+        branch: {
+          label: "Branch",
+          type: "text",
+          placeholder: "Branch (if employee)",
+        },
       },
       async authorize(credentials) {
-        await db()
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Missing email or password");
+        await db();
+        if (
+          !credentials?.email ||
+          !credentials?.password ||
+          !credentials?.role
+        ) {
+          throw new Error("Missing email, password, or role");
         }
         const user = await users.findOne({ email: credentials.email });
         if (
           user &&
           (await verifyPassword(credentials.password, user.password))
         ) {
+          // If employee, check branch
+          if (credentials.role === "employee") {
+            if (!credentials.branch) {
+              throw new Error("Branch is required for employees");
+            }
+            if (!user.branch || user.branch !== credentials.branch) {
+              throw new Error("Invalid branch for employee");
+            }
+          }
+          if (credentials.role !== user.role) {
+            throw new Error("Role mismatch");
+          }
           return {
             id: user._id.toString(),
             email: user.email,
             role: user.role || "user",
+            branch: user.branch || null,
           };
         }
         throw new Error("Invalid email or password");
-      },
-    }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      async profile(profile) {
-        // Find or create user in DB
-        let user = await users.findOne({ email: profile.email });
-        if (!user) {
-          throw new Error("User not found");
-        }
-        return {
-          id: user._id.toString(),
-          email: user.email,
-          role: user.role || "user",
-        };
       },
     }),
   ],
@@ -70,6 +81,7 @@ const handler = NextAuth({
         token.id = user.id;
         token.role = user.role;
         token.email = user.email;
+        token.branch = user.branch || null; // Add branch if available
       }
       return token;
     },
@@ -78,10 +90,12 @@ const handler = NextAuth({
         session.user.id = token.id;
         session.user.role = token.role;
         session.user.email = token.email;
+        session.user.branch = token.branch;
       }
       return session;
     },
   },
-});
+};
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

@@ -1,64 +1,128 @@
 "use client";
 
+import { signIn } from "next-auth/react";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { FcGoogle } from "react-icons/fc";
 import { useTheme } from "next-themes";
-import { signIn } from "next-auth/react";
-import { redirect } from "next/navigation";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
- // Adjust the import path as needed
+import { Toaster, toast } from "react-hot-toast";
+
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("admin");
+  const [branch, setBranch] = useState("");
   const { setTheme, theme } = useTheme();
+
+  const branches = ["Main", "Branch A", "Branch B", "Branch C"];
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // Use NextAuth signIn for credentials
+    if (role === "employee" && !branch) {
+      toast.error("Please select a branch.");
+      return;
+    }
     const res = await signIn("credentials", {
       redirect: false,
       email,
       password,
+      role,
+      branch: role === "employee" ? branch : undefined,
     });
     if (res?.error) {
-      // handle error (show message, etc.)
-      console.error(res.error);
+      toast.error(res.error || "Login failed");
     } else {
-      console.log("Login successful, redirecting to dashboard...");
-      redirect("admin/dashboard"); // Redirect to dashboard on success
-      console.log("Login successful, redirecting to dashboard...");
+      toast.success("Login successful! Redirecting...");
+      if (role === "admin") {
+        redirect("/admin/dashboard");
+      } else {
+        redirect("/employee/receipts");
+      }
     }
   };
 
-  const handleGoogleLogin = () => {
-    // Use NextAuth signIn for Google
-    signIn("google");
-  };
   console.log("Current theme:", theme);
   console.log("Available themes:", ["light", "dark", "system"]);
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background text-foreground px-4 ">
-      <SmoothCursor />
-      <Card className="w-full max-w-md shadow-xl">
-        <CardHeader className="space-y-2 text-center">
-          <CardTitle className="text-2xl font-bold">
-            Login to Your Account
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100/60 via-white/80 to-purple-100/60 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 px-4">
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            background: theme === "dark" ? "#18181b" : "#fff",
+            color: theme === "dark" ? "#fff" : "#18181b",
+          },
+          className:
+            "rounded-lg shadow-lg border border-gray-200 dark:border-gray-800",
+        }}
+      />
+      <Card className="w-full max-w-md rounded-3xl shadow-2xl border-0 bg-white/80 dark:bg-gray-900/90 backdrop-blur-md">
+        <CardHeader className="text-center pb-2">
+          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent drop-shadow-md">
+            Welcome to MotoEmi
           </CardTitle>
-          <Button
-            variant="ghost"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="text-xs"
-          >
-            Toggle {theme === "dark" ? "Light" : "Dark"} Mode
-          </Button>
+          <p className="text-sm text-muted-foreground mt-2">
+            Sign in to your account
+          </p>
         </CardHeader>
-
-        <CardContent className="space-y-4">
-          <form onSubmit={handleLogin} className="space-y-4">
+        <CardContent className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div className="flex gap-4 items-center justify-center">
+              <Label className="flex items-center gap-1 cursor-pointer">
+                <input
+                  type="radio"
+                  name="role"
+                  value="admin"
+                  checked={role === "admin"}
+                  onChange={() => setRole("admin")}
+                  className="accent-blue-500 dark:accent-purple-500"
+                />
+                Admin
+              </Label>
+              <Label className="flex items-center gap-1 cursor-pointer">
+                <input
+                  type="radio"
+                  name="role"
+                  value="employee"
+                  checked={role === "employee"}
+                  onChange={() => setRole("employee")}
+                  className="accent-blue-500 dark:accent-purple-500"
+                />
+                Employee
+              </Label>
+            </div>
+            {role === "employee" && (
+              <div>
+                <Label htmlFor="branch">Branch</Label>
+                <select
+                  id="branch"
+                  value={branch}
+                  onChange={(e) => setBranch(e.target.value)}
+                  required
+                  className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 mt-1 bg-white/80 dark:bg-gray-800/80 text-foreground focus:ring-2 focus:ring-blue-400 dark:focus:ring-purple-500 outline-none"
+                >
+                  <option
+                    value=""
+                    className="text-gray-500 bg-white/90 dark:bg-gray-800/80 dark:text-gray-400 italic"
+                  >
+                    Select branch
+                  </option>
+                  {branches.map((b) => (
+                    <option
+                      key={b}
+                      value={b}
+                      className="bg-white/90 dark:bg-gray-800/80 text-gray-800 dark:text-gray-100 hover:bg-blue-100 dark:hover:bg-purple-900 transition-colors"
+                    >
+                      {b}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
             <div>
               <Label htmlFor="email">Email</Label>
               <Input
@@ -67,6 +131,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="rounded-lg bg-white/90 dark:bg-gray-800/80 border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-400 dark:focus:ring-purple-500"
               />
             </div>
             <div>
@@ -77,32 +142,17 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className="rounded-lg bg-white/90 dark:bg-gray-800/80 border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-400 dark:focus:ring-purple-500"
               />
             </div>
-            <Button type="submit" className="w-full cursor-none">
+            <Button
+              type="submit"
+              className="w-full rounded-lg font-semibold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white shadow-md hover:scale-[1.03] transition-transform dark:from-purple-700 dark:via-fuchsia-700 dark:to-pink-700 cursor-pointer"
+              disabled={role === "employee" && !branch}
+            >
               Login
             </Button>
           </form>
-
-          <div className="relative my-4">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                or
-              </span>
-            </div>
-          </div>
-
-          <Button
-            onClick={handleGoogleLogin}
-            variant="outline"
-            className="w-full flex items-center justify-center gap-2 cursor-none"
-          >
-            <FcGoogle size={20} />
-            Sign in with Google
-          </Button>
         </CardContent>
       </Card>
     </div>
