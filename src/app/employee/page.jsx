@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect } from "react";
 import { useLoading } from "@/context/LoadingContext";
 import { toast } from "react-hot-toast";
