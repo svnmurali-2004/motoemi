@@ -13,7 +13,6 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
-import printJS from "print-js";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -206,14 +205,80 @@ export default function DataTableDemo() {
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [refresh, setRefresh] = React.useState(false);
-  // Print handler using print-js
-  const handlePrint = () => {
-    printJS({
-      printable: "emi-table-print-area",
-      type: "html",
-      targetStyles: ["*"],
-      documentTitle: "EMI Records Table",
-    });
+
+  // PDF download handler using jsPDF and jsPDF-AutoTable
+  const handleDownloadPDF = async () => {
+    try {
+      const jsPDFModule = await import("jspdf");
+      const autoTable = (await import("jspdf-autotable")).default;
+      const jsPDF = jsPDFModule.jsPDF || jsPDFModule.default;
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "mm",
+        format: "a4",
+      });
+
+      // Get visible columns (not hidden)
+      const visibleColumns = columns.filter((col) => {
+        // If using columnVisibility state, check here
+        return !columnVisibility || columnVisibility[col.accessorKey] !== false;
+      });
+
+      // Table headers
+      const head = [
+        visibleColumns.map((col) => {
+          if (typeof col.header === "function") {
+            // Render header as string if it's a function
+            // Fallback to accessorKey if not possible
+            try {
+              // Try to render header (may not work outside React)
+              return typeof col.accessorKey === "string" ? col.accessorKey : "";
+            } catch {
+              return typeof col.accessorKey === "string" ? col.accessorKey : "";
+            }
+          }
+          return col.header || col.accessorKey;
+        }),
+      ];
+
+      // Get all filtered rows (across all pages)
+      const filteredRows = table.getFilteredRowModel().rows;
+      const body = filteredRows.map((row) =>
+        visibleColumns.map((col) => {
+          let value = row.original[col.accessorKey];
+          // Format value if needed (e.g., for currency/date columns)
+          // if (col.accessorKey === "dueAmount") {
+          //   return value !== undefined && value !== null ? value : "";
+          // }
+          if (col.accessorKey === "dueDate") {
+            return new Date(value).toLocaleDateString();
+          }
+          if (col.accessorKey === "status") {
+            return value
+              ? String(value).charAt(0).toUpperCase() + String(value).slice(1)
+              : "";
+          }
+          return value !== undefined && value !== null ? value : "";
+        })
+      );
+
+      autoTable(pdf, {
+        head,
+        body,
+        styles: { fontSize: 10, minCellHeight: 8, overflow: "linebreak" },
+        headStyles: { fillColor: [22, 160, 133] },
+        margin: { top: 20, left: 10, right: 10 },
+        tableWidth: "wrap", // Let autoTable wrap and paginate as needed
+        pageBreak: "auto",
+        didDrawPage: (data) => {
+          // Optionally, add page numbers or headers here
+        },
+      });
+      pdf.save("emi-table.pdf");
+    } catch (err) {
+      alert("Failed to generate PDF. See console for details.");
+      console.error("jsPDF/autoTable error:", err);
+    }
   };
 
   React.useEffect(() => {
@@ -331,34 +396,7 @@ export default function DataTableDemo() {
           </select>
           {/* Print Table button removed as requested */}
           <Button
-            onClick={async () => {
-              // Get all filtered rows (across all pages)
-              const rows = table
-                .getFilteredRowModel()
-                .rows.map((row) => row.original);
-              if (!rows.length) {
-                alert("No data to export");
-                return;
-              }
-              const res = await fetch("/api/emitable-pdf", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ records: rows }),
-              });
-              if (!res.ok) {
-                alert("Failed to generate PDF");
-                return;
-              }
-              const blob = await res.blob();
-              const url = window.URL.createObjectURL(blob);
-              const a = document.createElement("a");
-              a.href = url;
-              a.download = "emi-table.pdf";
-              document.body.appendChild(a);
-              a.click();
-              a.remove();
-              window.URL.revokeObjectURL(url);
-            }}
+            onClick={handleDownloadPDF}
             className="bg-green-600 text-white hover:bg-green-700 transition-colors shadow px-4 py-2 rounded"
           >
             ⬇️ Download PDF
