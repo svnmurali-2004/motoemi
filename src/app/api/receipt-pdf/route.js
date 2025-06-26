@@ -144,6 +144,7 @@ export async function POST(req) {
       },
     });
   } catch (err) {
+    console.log(err)
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
