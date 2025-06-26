@@ -6,239 +6,126 @@ export const runtime = "nodejs";
 export async function POST(req) {
   try {
     const data = await req.json();
-    // Beautiful, modern receipt HTML with 2-column grid for details
+    // HTML string matching the look of components/Receipt.jsx
     const html = `
       <html>
         <head>
           <meta charset="utf-8" />
           <title>Vehicle Delivery Receipt</title>
+          <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
           <style>
+            body { background: #f6f8fa; }
             @page { size: A4; margin: 0; }
-            html, body {
-              width: 210mm;
-              height: 297mm;
-              margin: 0;
-              padding: 0;
-              background: #f6f8fa;
-            }
-            body {
-              font-family: 'Segoe UI', Arial, sans-serif;
-              color: #222;
-              margin: 0;
-              padding: 0;
+            html, body { width: 210mm; height: 297mm; margin: 0; padding: 0; }
+            .max-w-4xl {
+              margin-top: 0 !important;
+              margin-bottom: 0 !important;
+              width: 185mm !important;
+              min-height: 0 !important;
+              max-width: 185mm !important;
               box-sizing: border-box;
+              page-break-inside: avoid;
             }
-            .receipt-container {
-              background: #fff;
-              width: 185mm;
-              min-height: 260mm;
-              margin: 12mm auto;
-              border-radius: 18px;
-              box-shadow: 0 8px 32px rgba(60,60,100,0.12);
-              padding: 32px 28px 28px 28px;
-              border: 1.5px solid #e3e7ee;
-              box-sizing: border-box;
-              display: flex;
-              flex-direction: column;
-              justify-content: space-between;
-            }
-            .brand {
-              display: flex;
-              align-items: center;
-              gap: 12px;
-              margin-bottom: 12px;
-            }
-            .brand-logo {
-              font-size: 2.2rem;
-              border-radius: 8px;
-              background: linear-gradient(90deg,#4f8cff,#a084ee 80%);
-              color: #fff;
-              width: 48px;
-              height: 48px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-weight: bold;
-              box-shadow: 0 2px 8px #a084ee22;
-            }
-            .brand-title {
-              font-size: 1.5rem;
-              font-weight: 700;
-              color: #4f46e5;
-              letter-spacing: 1px;
-            }
-            .subtitle {
-              font-size: 1.1rem;
-              color: #6b7280;
-              margin-bottom: 18px;
-              font-weight: 500;
-            }
-            .receipt-header {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              margin-bottom: 18px;
-              border-bottom: 1.5px dashed #e3e7ee;
-              padding-bottom: 10px;
-            }
-            .receipt-title {
-              font-size: 1.3rem;
-              font-weight: 600;
-              color: #222;
-            }
-            .receipt-info {
-              font-size: 1rem;
-              color: #444;
-              text-align: right;
-            }
-            .section {
-              margin: 22px 0 0 0;
-              padding-bottom: 12px;
-              border-bottom: 1px solid #f0f1f5;
-            }
-            .section:last-child {
-              border-bottom: none;
-            }
-            .section-title {
-              font-size: 1.08rem;
-              font-weight: 600;
-              color: #4f46e5;
-              margin-bottom: 8px;
-              letter-spacing: 0.5px;
-            }
-            .grid {
-              display: grid;
-              grid-template-columns: 1fr 1fr;
-              gap: 8px 32px;
-              margin-bottom: 4px;
-            }
-            .row {
-              display: flex;
-              align-items: baseline;
-              font-size: 1rem;
-              margin-bottom: 2px;
-            }
-            .label {
-              min-width: 90px;
-              color: #6b7280;
-              font-weight: 500;
-              margin-right: 6px;
-            }
-            .value {
-              color: #222;
-              font-weight: 500;
-              word-break: break-word;
-            }
-            .footer {
-              margin-top: 32px;
-              text-align: right;
-              color: #6b7280;
-              font-size: 0.98rem;
-            }
-            .note {
-              margin-top: 18px;
-              background: #f1f5ff;
-              color: #4f46e5;
-              border-radius: 8px;
-              padding: 12px 18px;
-              font-size: 0.98rem;
-              font-style: italic;
-            }
-            ul {
-              margin: 0 0 0 18px;
-              padding: 0;
-            }
-            @media print {
-              html, body {
-                width: 210mm;
-                height: 297mm;
-                background: #fff !important;
-              }
-              .receipt-container {
-                box-shadow: none;
-                border: none;
-                margin: 0;
-                width: 185mm;
-                min-height: 260mm;
-                padding: 24px 18px 18px 18px;
-              }
-            }
+            .p-6 { padding: 18px !important; }
+            .mt-8, .my-4, .mb-4, .mt-4, .mt-6 { margin-top: 12px !important; margin-bottom: 12px !important; }
+            .text-sm { font-size: 0.98rem !important; }
+            .text-lg { font-size: 1.15rem !important; }
+            .text-2xl { font-size: 1.45rem !important; }
+            .rounded-md { border-radius: 12px !important; }
+            .border { border-width: 1.2px !important; }
+            .border-gray-300 { border-color: #d1d5db !important; }
+            .bg-white { background: #fff !important; }
+            .mx-auto { margin-left: auto !important; margin-right: auto !important; }
+            .grid { display: grid !important; }
+            .grid-cols-1 { grid-template-columns: 1fr !important; }
+            .md\:grid-cols-2 { grid-template-columns: 1fr 1fr !important; }
+            .gap-4 { gap: 16px !important; }
+            .font-bold { font-weight: 700 !important; }
+            .font-semibold { font-weight: 600 !important; }
+            .italic { font-style: italic !important; }
+            .list-disc { list-style-type: disc !important; }
+            .list-inside { list-style-position: inside !important; }
+            .text-center { text-align: center !important; }
+            .text-right { text-align: right !important; }
+            .border-dashed { border-style: dashed !important; }
+            .border { border-width: 1px !important; }
+            .border-gray-300 { border-color: #d1d5db !important; }
+            .overflow-hidden { overflow: hidden !important; }
+            /* Prevent page breaks inside main container */
+            .max-w-4xl, body, html { page-break-inside: avoid !important; }
           </style>
         </head>
         <body>
-          <div class="receipt-container">
-            <div class="brand">
-              <div class="brand-logo">🚗</div>
-              <div class="brand-title">JAI BHAVANI MOTORS & SPARE PARTS</div>
+          <div class="max-w-4xl mx-auto p-6 bg-white text-zinc-900 rounded-md border border-gray-300 overflow-hidden" style="font-family: 'Segoe UI', Arial, sans-serif;">
+            <div class="text-center mb-4">
+              <h1 class="text-2xl font-bold">🚗 JAI BHAVANI MOTORS & SPARE PARTS</h1>
+              <p class="text-sm mt-1">Delivery Note Cum Intermediater Receipt</p>
+              <p class="text-sm">
+                Receipt No: <strong>${data.receiptNumber}</strong> | Date: <strong>${data.date}</strong> | Time: <strong>${data.time}</strong>
+              </p>
             </div>
-            <div class="subtitle">Delivery Note Cum Intermediater Receipt</div>
-            <div class="receipt-header">
-              <div class="receipt-title">🧾 Vehicle Delivery Note</div>
-              <div class="receipt-info">
-                <div>Receipt #: <b>${data.receiptNumber}</b></div>
-                <div>Date: <b>${data.date}</b></div>
-                <div>Time: <b>${data.time}</b></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-4">
+              <div>
+                <p><strong>Registered Owner:</strong> ${data.registeredOwner}</p>
+                <p><strong>S/o / D/o:</strong> ${data.ownerParentName}</p>
+                <p><strong>Address:</strong> ${data.ownerAddress}</p>
               </div>
             </div>
-            <div class="section">
-              <div class="section-title">Owner Details</div>
-              <div class="grid">
-                <div class="row"><span class="label">Name:</span> <span class="value">${data.registeredOwner}</span></div>
-                <div class="row"><span class="label">Parent:</span> <span class="value">${data.ownerParentName}</span></div>
-                <div class="row"><span class="label">Address:</span> <span class="value">${data.ownerAddress}</span></div>
+            <hr class="my-4 border-dashed" />
+            <h2 class="text-lg font-semibold mb-2">Vehicle Information</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <p><strong>Registration Number:</strong> ${data.registrationNumber}</p>
+                <p><strong>Model:</strong> ${data.model}</p>
+                <p><strong>Vehicle Class:</strong> ${data.classToVehicle}</p>
+                <p><strong>Manufacturer:</strong> ${data.makersName}</p>
+              </div>
+              <div>
+                <p><strong>Chassis Number:</strong> ${data.chassisNumber}</p>
+                <p><strong>Engine Number:</strong> ${data.engineNumber}</p>
+                <p><strong>Manufacturing Date:</strong> ${data.monthYearOfManufacture}</p>
+                <p><strong>Color:</strong> ${data.colorOfVehicle}</p>
               </div>
             </div>
-            <div class="section">
-              <div class="section-title">Vehicle Information</div>
-              <div class="grid">
-                <div class="row"><span class="label">Reg. No.:</span> <span class="value">${data.registrationNumber}</span></div>
-                <div class="row"><span class="label">Model:</span> <span class="value">${data.model}</span></div>
-                <div class="row"><span class="label">Class:</span> <span class="value">${data.classToVehicle}</span></div>
-                <div class="row"><span class="label">Chassis No.:</span> <span class="value">${data.chassisNumber}</span></div>
-                <div class="row"><span class="label">Engine No.:</span> <span class="value">${data.engineNumber}</span></div>
-                <div class="row"><span class="label">Maker:</span> <span class="value">${data.makersName}</span></div>
-                <div class="row"><span class="label">Mfg. Date:</span> <span class="value">${data.monthYearOfManufacture}</span></div>
-                <div class="row"><span class="label">Color:</span> <span class="value">${data.colorOfVehicle}</span></div>
+            <hr class="my-4 border-dashed" />
+            <h2 class="text-lg font-semibold mb-2">Seller Details</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <p><strong>Name:</strong> ${data.sellerName}</p>
+                <p><strong>S/o:</strong> ${data.sellerParentName}</p>
+                <p><strong>Address:</strong> ${data.sellerAddress}</p>
+              </div>
+              <div>
+                <p><strong>ID Proof:</strong> ${data.sellerIDProof}</p>
+                <p><strong>Phone:</strong> ${data.sellerPhone}</p>
               </div>
             </div>
-            <div class="section">
-              <div class="section-title">Seller Details</div>
-              <div class="grid">
-                <div class="row"><span class="label">Name:</span> <span class="value">${data.sellerName}</span></div>
-                <div class="row"><span class="label">Parent:</span> <span class="value">${data.sellerParentName}</span></div>
-                <div class="row"><span class="label">Address:</span> <span class="value">${data.sellerAddress}</span></div>
-                <div class="row"><span class="label">ID Proof:</span> <span class="value">${data.sellerIDProof}</span></div>
-                <div class="row"><span class="label">Phone:</span> <span class="value">${data.sellerPhone}</span></div>
+            <hr class="my-4 border-dashed" />
+            <h2 class="text-lg font-semibold mb-2">Purchaser Details</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <p><strong>Name:</strong> ${data.purchaserName}</p>
+                <p><strong>S/o:</strong> ${data.purchaserParentName}</p>
+                <p><strong>Address:</strong> ${data.purchaserAddress}</p>
+              </div>
+              <div>
+                <p><strong>ID Proof:</strong> ${data.purchaserIDProof}</p>
+                <p><strong>Phone:</strong> ${data.purchaserPhone}</p>
               </div>
             </div>
-            <div class="section">
-              <div class="section-title">Purchaser Details</div>
-              <div class="grid">
-                <div class="row"><span class="label">Name:</span> <span class="value">${data.purchaserName}</span></div>
-                <div class="row"><span class="label">Parent:</span> <span class="value">${data.purchaserParentName}</span></div>
-                <div class="row"><span class="label">Address:</span> <span class="value">${data.purchaserAddress}</span></div>
-                <div class="row"><span class="label">ID Proof:</span> <span class="value">${data.purchaserIDProof}</span></div>
-                <div class="row"><span class="label">Phone:</span> <span class="value">${data.purchaserPhone}</span></div>
-              </div>
-            </div>
-            <div class="section">
-              <div class="section-title">Branch</div>
-              <div class="grid">
-                <div class="row"><span class="label">Branch:</span> <span class="value">${data.branch}</span></div>
-              </div>
-            </div>
-            <div class="note">
-              <ul>
+            <div class="mt-8 text-sm italic">
+              <p>Note:</p>
+              <ul class="list-disc list-inside">
                 <li>Please transfer the vehicle within a week.</li>
                 <li>Vehicle once sold is not returnable.</li>
                 <li>Condition of vehicle as is where is.</li>
                 <li>We are not responsible for traffic violations.</li>
               </ul>
             </div>
-            <div class="footer">
-              For <b>JAI BHAVANI MOTORS & SPARE PARTS</b><br />
-              <span style="display:inline-block;margin-top:18px;">__________________________</span><br />
-              Authorized Signature
+            <div class="mt-6 text-right text-sm">
+              <p><strong>For JAI BHAVANI MOTORS & SPARE PARTS</strong></p>
+              <p class="mt-4">_</p>
+              <p>Authorized Signature</p>
             </div>
           </div>
         </body>

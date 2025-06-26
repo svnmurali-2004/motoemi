@@ -80,7 +80,7 @@ const menuData = [
 ];
 
 export default function AppSidebar({
-  appName = "My App",
+  appName = "Moto Emi",
   username = "User",
   onSignOut,
 }) {

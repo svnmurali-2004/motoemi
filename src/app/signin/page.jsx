@@ -10,6 +10,9 @@ import { Label } from "@/components/ui/label";
 import { useTheme } from "next-themes";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
 import { Toaster, toast } from "react-hot-toast";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
+import { useLoading } from "@/context/LoadingContext";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -17,7 +20,8 @@ export default function LoginPage() {
   const [role, setRole] = useState("admin");
   const [branch, setBranch] = useState("");
   const { setTheme, theme } = useTheme();
-
+  const router = useRouter();
+  const { show: showLoading, hide: hideLoading } = useLoading();
   const branches = ["Main", "Branch A", "Branch B", "Branch C"];
 
   const handleLogin = async (e) => {
@@ -26,6 +30,7 @@ export default function LoginPage() {
       toast.error("Please select a branch.");
       return;
     }
+    showLoading();
     const res = await signIn("credentials", {
       redirect: false,
       email,
@@ -35,18 +40,18 @@ export default function LoginPage() {
     });
     if (res?.error) {
       toast.error(res.error || "Login failed");
+      hideLoading();
     } else {
       toast.success("Login successful! Redirecting...");
       if (role === "admin") {
-        redirect("/admin/dashboard");
+        router.replace("/admin/dashboard");
       } else {
-        redirect("/employee/receipts");
+        router.replace("/employee/receipts");
       }
+      hideLoading() 
     }
   };
 
-  console.log("Current theme:", theme);
-  console.log("Available themes:", ["light", "dark", "system"]);
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100/60 via-white/80 to-purple-100/60 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 px-4">
       <Toaster

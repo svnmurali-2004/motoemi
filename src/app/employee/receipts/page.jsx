@@ -16,8 +16,8 @@ import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Receipt from "@/components/Receipt";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { useReactToPrint } from "react-to-print";
-import html2pdf from "html2pdf.js";
+import { useLoading } from "@/context/LoadingContext";
+import { toast } from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -53,43 +53,49 @@ const btnStyle = {
 };
 
 function DownloadReceiptButton({ receipt }) {
+  const { show, hide } = useLoading();
   const handleDownload = async () => {
-    const res = await fetch("/api/receipt-pdf", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(receipt),
-    });
-    if (!res.ok) {
-      alert("Failed to generate PDF");
-      return;
+    show();
+    try {
+      const res = await fetch("/api/receipt-pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(receipt),
+      });
+      if (!res.ok) throw new Error("Failed to generate PDF");
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "delivery_note.pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+      toast.success("PDF downloaded successfully");
+    } catch (err) {
+      toast.error("Could not download PDF: " + err.message);
+    } finally {
+      hide();
     }
-    const blob = await res.blob();
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "delivery_note.pdf";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(url);
+    return (
+      <button
+        onClick={handleDownload}
+        style={{
+          margin: "4px",
+          padding: "6px 14px",
+          fontSize: "15px",
+          background: "#3498db",
+          color: "#fff",
+          border: "none",
+          borderRadius: "6px",
+          cursor: "pointer",
+        }}
+      >
+        ⬇ Download PDF
+      </button>
+    );
   };
-  return (
-    <button
-      onClick={handleDownload}
-      style={{
-        margin: "4px",
-        padding: "6px 14px",
-        fontSize: "15px",
-        background: "#3498db",
-        color: "#fff",
-        border: "none",
-        borderRadius: "6px",
-        cursor: "pointer",
-      }}
-    >
-      ⬇ Download PDF
-    </button>
-  );
 }
 
 export const columns = [
@@ -157,9 +163,10 @@ export default function ReceiptsTable() {
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
+  const { show, hide } = useLoading();
   React.useEffect(() => {
     async function fetchReceipts() {
-      setLoading(true);
+      show();
       try {
         const res = await fetch("/api/deliveryreceipts", {
           headers: { "Content-Type": "application/json" },
@@ -169,12 +176,13 @@ export default function ReceiptsTable() {
         else setData([]);
       } catch (e) {
         setData([]);
+        toast.error("Failed to fetch receipts");
       } finally {
-        setLoading(false);
+        hide();
       }
     }
     fetchReceipts();
-  }, []);
+  }, [show, hide]);
 
   React.useEffect(() => {
     const filters = [];

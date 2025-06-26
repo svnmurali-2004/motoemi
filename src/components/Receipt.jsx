@@ -2,11 +2,41 @@
 
 import React, { forwardRef } from "react";
 
+const sampleData = {
+  receiptNumber: "12345",
+  date: "2025-06-26",
+  time: "14:30",
+  registeredOwner: "John Doe",
+  ownerParentName: "Richard Doe",
+  ownerAddress: "123 Main St, Cityville",
+  registrationNumber: "MH12AB1234",
+  model: "Honda Activa",
+  classToVehicle: "Scooter",
+  makersName: "Honda",
+  chassisNumber: "CHS1234567890",
+  engineNumber: "ENG9876543210",
+  monthYearOfManufacture: "05/2022",
+  colorOfVehicle: "Red",
+  sellerName: "Jane Smith",
+  sellerParentName: "Robert Smith",
+  sellerAddress: "456 Market Rd, Townsville",
+  sellerIDProof: "Aadhar 1234-5678-9012",
+  sellerPhone: "9876543210",
+  purchaserName: "Alice Brown",
+  purchaserParentName: "George Brown",
+  purchaserAddress: "789 Lakeview, Villagetown",
+  purchaserIDProof: "PAN ABCDE1234F",
+  purchaserPhone: "9123456789",
+};
+
+// If using TypeScript, you can uncomment the type
+// type ReceiptProps = { data: ReceiptFormData };
+
 const Receipt = forwardRef(({ data }, ref) => {
   return (
     <div
       ref={ref}
-      className="max-w-4xl mx-auto p-4 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 rounded-md border border-gray-300 dark:border-zinc-700 overflow-y-auto max-h-[50vh]"
+      className="max-w-4xl mx-auto p-6 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 rounded-md border border-gray-300 dark:border-zinc-700"
     >
       <div className="text-center mb-4">
         <h1 className="text-2xl font-bold">
