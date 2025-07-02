@@ -33,8 +33,8 @@ export async function GET(request) {
     }
 
     // Twilio configuration
-    const accountSid = process.env.TWILIO_ACCOUNT_SID; // Replace with your actual account SID
-    const authToken = process.env.TWILIO_AUTH_TOKEN; // Replace with your actual auth token
+    const accountSid = process.env.TWILIO_ACCOUNT_SID; 
+    const authToken = process.env.TWILIO_AUTH_TOKEN; 
     const client = require("twilio")(accountSid, authToken);
 
     const sentMessages = [];
