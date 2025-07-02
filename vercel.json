@@ -1,0 +1,13 @@
+{
+  "crons": [
+    {
+      "path": "/api/alerts/emi",
+      "schedule": "0 9 * * *"
+    }
+  ],
+  "functions": {
+    "src/app/api/alerts/emi/route.js": {
+      "maxDuration": 30
+    }
+  }
+}

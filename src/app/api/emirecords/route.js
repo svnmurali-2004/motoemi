@@ -35,7 +35,10 @@ export async function GET(req) {
           "customerAddress": "$customer.customerAddress",
           "garageDate": "$customer.garageDate",
           "emiMonths": "$customer.emiMonths",
-          status: 1,
+          "totalPaidAmount": 1,
+          "receipts": 1,
+          "status": 1,
+          "status": 1,
 
         },
       },

@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 export default function AboutUs() {
   return (
     <motion.section
-      className="min-h-[60vh] flex flex-col md:flex-row items-center justify-center bg-white px-4 py-16 md:py-24 gap-10 md:gap-20"
+      className="min-h-[50vh] flex flex-col lg:flex-row items-center justify-center bg-white px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 gap-8 lg:gap-16"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
@@ -16,7 +16,7 @@ export default function AboutUs() {
     >
       {/* Left: Lottie Animation */}
       <motion.div
-        className="w-full md:w-[440px] lg:w-[520px] flex justify-center items-center"
+        className="w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl flex justify-center items-center order-1 lg:order-1"
         initial={{ opacity: 0, x: -40 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
@@ -26,51 +26,46 @@ export default function AboutUs() {
           src="https://lottie.host/d18cf9f5-5416-4e10-ace6-27a31e2bd0e9/ocGSbqRw31.lottie"
           loop
           autoplay
-          style={{ width: "100%", height: 350, maxWidth: 420, minHeight: 350 }}
+          style={{
+            width: "100%",
+            height: "auto",
+            maxWidth: 400,
+            minHeight: 280,
+            aspectRatio: "1/1",
+          }}
         />
       </motion.div>
 
       {/* Right: Text Content */}
       <motion.div
-        className="w-full md:flex-1 flex flex-col items-start text-left space-y-6 md:pl-8 lg:pl-16"
+        className="w-full lg:flex-1 flex flex-col items-center lg:items-start text-center lg:text-left space-y-4 sm:space-y-6 order-2 lg:order-2 max-w-2xl"
         initial={{ opacity: 0, x: 40 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7, delay: 0.2 }}
       >
         <BoxReveal>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-indigo-700 mb-2">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-indigo-700 mb-2">
             About Us
           </h2>
         </BoxReveal>
 
-        <FlipText className="text-xl sm:text-2xl font-semibold text-indigo-600 -tracking-widest leading-[5rem] break-words">
+        <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-indigo-600 leading-tight">
           Financing Made Simple & Reliable
-        </FlipText>
+        </p>
 
-        <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+        <p className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed max-w-xl">
           At{" "}
           <span className="font-semibold text-indigo-600">
             Surya Vanshi Auto Finance
           </span>
-          , we offer transparent and reliable vehicle financing solutions
-          tailored to your needs.
+          , we offer transparent vehicle financing solutions with detailed EMI
+          tracking and receipt management.
         </p>
 
-        <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-          We maintain detailed EMI records, including penalties, outstanding
-          balances, and receipt tracking to ensure accuracy and accountability.
-        </p>
-
-        <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-          Serving customers from our office in{" "}
-          <strong>Tukaram Gate, North Lallaguda, Secunderabad</strong>, we aim
-          to simplify your financial journey with professionalism and trust.
-        </p>
-
-        <p className="text-base sm:text-lg text-indigo-700 font-semibold leading-relaxed">
-          Contact us today at <strong>93472 34371</strong> — we're here to
-          support your auto finance needs every step of the way!
+        <p className="text-sm sm:text-base lg:text-lg text-gray-700 leading-relaxed max-w-xl">
+          Based in <strong>Tukaram Gate, Secunderabad</strong>, we simplify your
+          financial journey with trust and professionalism.
         </p>
       </motion.div>
     </motion.section>

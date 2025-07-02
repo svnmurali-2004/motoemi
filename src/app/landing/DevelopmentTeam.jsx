@@ -14,26 +14,19 @@ const team = [
     initial: "S",
   },
   {
-    name: "Hrishik",
+    name: "Sravya",
     role: "Developer",
     desc: "Frontend specialist and UI/UX enthusiast.",
     highlight: false,
     initial: "H",
   },
   {
-    name: "E Mithil",
+    name: "Jahnavi",
     role: "Developer",
     desc: "Backend developer and automation expert.",
     highlight: false,
     initial: "E",
-  },
-  {
-    name: "Nishanth",
-    role: "Developer",
-    desc: "Data analytics and integration specialist.",
-    highlight: false,
-    initial: "N",
-  },
+  }
 ];
 
 export default function DevelopmentTeam() {

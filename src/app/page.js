@@ -7,12 +7,22 @@ import {  PieDonutDemo } from "@/components/PieDonutDefault";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Loading  from "./loading";
+import Loading from "./loading";
+import MotoEmiHome from "./landing/Hero";
+
 export default  function Home() {
   const [s,setS]=useState(true)
   
   return (
     <>
+    <MotoEmiHome/>
+    </>
+  );
+}
+
+/*
+
+ <>
       <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100 text-9xl text-orange-700">
         jai shree ram
       </div>
@@ -29,5 +39,4 @@ export default  function Home() {
         Go to Dashboard
       </Link>
     </>
-  );
-}
+  */

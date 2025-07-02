@@ -35,6 +35,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import CreateCustomerDialog from "./createCustomer";
+import PaymentDialog from "./Payment";
+import ReceiptsList from "./ReceiptsList";
 
 export const columns = [
   {
@@ -179,6 +181,23 @@ export const columns = [
     filterFn: "includesString",
   },
   {
+    accessorKey: "totalPaidAmount",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Total Paid <ArrowUpDown />
+      </Button>
+    ),
+    cell: ({ row }) =>
+      new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+      }).format(row.getValue("totalPaidAmount") || 0),
+    filterFn: "equals",
+  },
+  {
     accessorKey: "emiMonths",
     header: ({ column }) => (
       <Button
@@ -189,6 +208,27 @@ export const columns = [
       </Button>
     ),
     filterFn: "equals",
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => {
+      const emiRecord = row.original;
+
+      return (
+        <div className="flex gap-2">
+          <PaymentDialog
+            emiRecord={emiRecord}
+            onPaymentUpdate={(updatedRecord) => {
+              window.location.reload();
+            }}
+          />
+          <ReceiptsList emiRecord={emiRecord} />
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
   },
 ];
 
@@ -289,8 +329,12 @@ export default function DataTableDemo() {
           headers: { "Content-Type": "application/json" },
         });
         const json = await res.json();
-        if (json.ok) setData(json.emiRecords);
-        else setData([]);
+        if (json.ok) {
+          setData(json.emiRecords);
+          console.log(json.emiRecords);
+        } else {
+          setData([]);
+        }
       } catch (e) {
         setData([]);
       } finally {

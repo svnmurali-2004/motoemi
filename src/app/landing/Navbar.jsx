@@ -17,7 +17,7 @@ export default function Navbar() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7 }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-between h-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-between h-16 ">
         {/* Logo and Name */}
         <div className="flex items-center gap-2">
           <span className="inline-block w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xl shadow">
