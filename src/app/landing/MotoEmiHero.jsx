@@ -7,7 +7,7 @@ import { InteractiveGridPattern } from "@/components/magicui/interactive-grid-pa
 import { BoxReveal } from "@/components/magicui/box-reveal";
 import { cn } from "@/lib/utils.js";
 import Lottie from "lottie-react";
-import heroAnimation from "@/assets/hero.json"; // Keep your current Lottie or update if needed
+import heroAnimation from "@/assets/emihero.json"; // Keep your current Lottie or update if needed
 import { motion } from "framer-motion";
 export default function MotoEmiHero() {
   const router = useRouter();

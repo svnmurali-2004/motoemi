@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Loading from "./loading";
-import MotoEmiHome from "./landing/Hero";
+import MotoEmiHome from "./landing/page";
 
 export default  function Home() {
   const [s,setS]=useState(true)

@@ -54,6 +54,7 @@ const btnStyle = {
 
 function DownloadReceiptButton({ receipt }) {
   const { show, hide } = useLoading();
+
   const handleDownload = async () => {
     show();
     try {
@@ -62,12 +63,14 @@ function DownloadReceiptButton({ receipt }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(receipt),
       });
+
       if (!res.ok) throw new Error("Failed to generate PDF");
+
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "delivery_note.pdf";
+      a.download = `delivery_receipt_${receipt.receiptNumber}.pdf`;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -78,24 +81,25 @@ function DownloadReceiptButton({ receipt }) {
     } finally {
       hide();
     }
-    return (
-      <button
-        onClick={handleDownload}
-        style={{
-          margin: "4px",
-          padding: "6px 14px",
-          fontSize: "15px",
-          background: "#3498db",
-          color: "#fff",
-          border: "none",
-          borderRadius: "6px",
-          cursor: "pointer",
-        }}
-      >
-        ⬇ Download PDF
-      </button>
-    );
   };
+
+  return (
+    <button
+      onClick={handleDownload}
+      style={{
+        margin: "4px",
+        padding: "6px 14px",
+        fontSize: "15px",
+        background: "#3498db",
+        color: "#fff",
+        border: "none",
+        borderRadius: "6px",
+        cursor: "pointer",
+      }}
+    >
+      ⬇ Download PDF
+    </button>
+  );
 }
 
 export const columns = [
@@ -166,18 +170,21 @@ export default function ReceiptsTable() {
   const { show, hide } = useLoading();
   React.useEffect(() => {
     async function fetchReceipts() {
-      show();
       try {
+        show();
         const res = await fetch("/api/deliveryreceipts", {
           headers: { "Content-Type": "application/json" },
         });
         const json = await res.json();
-        if (json.ok) setData(json.receipts);
-        else setData([]);
+        if (json.ok) {
+          setData(json.receipts);
+          toast.success("Receipts fetched successfully");
+        } else setData([]);
       } catch (e) {
         setData([]);
         toast.error("Failed to fetch receipts");
       } finally {
+        setLoading(false);
         hide();
       }
     }

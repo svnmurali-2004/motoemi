@@ -33,7 +33,6 @@ export async function GET(req) {
         );
       }
         receipts = await DeliveryReceipts.find({ branch: session.user.branch });
-        console.log("Employee Branch Receipts:", receipts);
     } else {
       receipts = await DeliveryReceipts.find({});
     }
