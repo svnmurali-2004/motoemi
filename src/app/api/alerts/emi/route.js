@@ -33,7 +33,7 @@ export async function GET(request) {
     }
 
     // Twilio configuration
-    const accountSid = "AC6f5b6170c5cbe9915545b6f0652b5f14";
+    const accountSid = process.env.TWILIO_ACCOUNT_SID; // Replace with your actual account SID
     const authToken = process.env.TWILIO_AUTH_TOKEN; // Replace with your actual auth token
     const client = require("twilio")(accountSid, authToken);
 
