@@ -59,7 +59,7 @@ export async function GET(request) {
         // Send to customer
         const customerMessage = await client.messages.create({
           body: messageBody,
-          messagingServiceSid: "MG642b65cc620530b1f23cafdc45f2f28a",
+          messagingServiceSid: process.env.TWILIO_MESSAGING_SERVICE_SID, 
           to: `+91${customer.mobileNo}`,
         });
 
